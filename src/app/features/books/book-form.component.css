@@ -1,0 +1,14 @@
+.form-page {
+  padding: 16px;
+  max-width: 760px;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.desc-field {
+  grid-column: span 2;
+}

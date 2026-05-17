@@ -1,13 +1,47 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Issue } from '../../core/models/library.models';
 import { LibraryService } from '../../core/services/library.service';
 
-@Component({template:`<div style='padding:16px'><h2>Issue Management</h2><mat-tab-group><mat-tab label='Active Issues'><table mat-table [dataSource]='active'><ng-container matColumnDef='id'><th mat-header-cell *matHeaderCellDef>ID</th><td mat-cell *matCellDef='let i'>{{i.id}}</td></ng-container><ng-container matColumnDef='member'><th mat-header-cell *matHeaderCellDef>Member</th><td mat-cell *matCellDef='let i'>{{i.memberId}}</td></ng-container><ng-container matColumnDef='due'><th mat-header-cell *matHeaderCellDef>Due</th><td mat-cell *matCellDef='let i'>{{i.dueDate | date}}</td></ng-container><ng-container matColumnDef='actions'><th mat-header-cell *matHeaderCellDef>Actions</th><td mat-cell *matCellDef='let i'><button mat-button (click)='renew(i.id)' [disabled]='i.renewalCount>=2'>Renew</button><button mat-button color='primary' (click)='ret(i.id)'>Return</button></td></ng-container><tr mat-header-row *matHeaderRowDef='cols'></tr><tr mat-row *matRowDef='let row; columns: cols'></tr></table></mat-tab><mat-tab label='Overdue'><table mat-table [dataSource]='overdue'><ng-container matColumnDef='id'><th mat-header-cell *matHeaderCellDef>ID</th><td mat-cell *matCellDef='let i'>{{i.id}}</td></ng-container><ng-container matColumnDef='fine'><th mat-header-cell *matHeaderCellDef>Fine</th><td mat-cell *matCellDef='let i' style='color:red'>{{i.fineAmount}} BDT</td></ng-container><tr mat-header-row *matHeaderRowDef='overCols'></tr><tr mat-row *matRowDef='let row; columns: overCols'></tr></table></mat-tab><mat-tab label='Issue History'><table mat-table [dataSource]='all'><ng-container matColumnDef='id'><th mat-header-cell *matHeaderCellDef>ID</th><td mat-cell *matCellDef='let i'>{{i.id}}</td></ng-container><ng-container matColumnDef='status'><th mat-header-cell *matHeaderCellDef>Status</th><td mat-cell *matCellDef='let i'>{{i.status}}</td></ng-container><tr mat-header-row *matHeaderRowDef='histCols'></tr><tr mat-row *matRowDef='let row; columns: histCols'></tr></table></mat-tab></mat-tab-group></div>`})
+@Component({
+  templateUrl: './issue-management.component.html',
+  styleUrls: ['./issue-management.component.css']
+})
 export class IssueManagementComponent {
-  all: Issue[] = []; active: Issue[] = []; overdue: Issue[] = [];
-  cols = ['id', 'member', 'due', 'actions']; overCols = ['id', 'fine']; histCols = ['id', 'status'];
-  constructor(private lib: LibraryService) { this.lib.getIssues().subscribe(v => { this.all = v; this.refresh(); }); this.refresh(); }
-  refresh(): void { this.active = this.lib.getActiveIssues(); this.overdue = this.lib.getOverdueIssues(); }
-  ret(id: string): void { this.lib.returnBook(id); this.refresh(); }
-  renew(id: string): void { try { this.lib.renewBook(id); } catch {} this.refresh(); }
+  all: Issue[] = [];
+  active: Issue[] = [];
+  overdue: Issue[] = [];
+  cols = ['id', 'member', 'due', 'actions'];
+  overCols = ['id', 'fine'];
+  histCols = ['id', 'status'];
+
+  constructor(private lib: LibraryService, private snack: MatSnackBar) {
+    this.lib.getIssues().subscribe(v => {
+      this.all = v;
+      this.refresh();
+    });
+    this.refresh();
+  }
+
+  refresh(): void {
+    this.active = this.lib.getActiveIssues();
+    this.overdue = this.lib.getOverdueIssues();
+  }
+
+  ret(id: string): void {
+    this.lib.returnBook(id);
+    this.refresh();
+  }
+
+  renew(id: string): void {
+    try {
+      const updated = this.lib.renewBook(id);
+      if (updated.renewalCount >= 2) {
+        this.snack.open('Max renewal exceeded', 'Close', { duration: 1800 });
+      }
+    } catch (err: any) {
+      this.snack.open(err?.message || 'Renew failed', 'Close', { duration: 1800 });
+    }
+    this.refresh();
+  }
 }

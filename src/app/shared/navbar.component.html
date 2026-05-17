@@ -1,0 +1,6 @@
+<mat-toolbar color="primary" class="topbar">
+  <span class="brand">LibraryApp</span>
+  <span class="spacer"></span>
+  <span class="user-chip">{{ auth.currentUser?.email }}</span>
+  <button mat-stroked-button class="logout-btn" (click)="logout()">Logout</button>
+</mat-toolbar>

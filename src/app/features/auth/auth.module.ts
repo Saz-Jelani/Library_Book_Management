@@ -4,5 +4,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { LoginComponent } from './login.component';
 
 const routes: Routes = [{ path: '', component: LoginComponent }];
-@NgModule({ declarations: [LoginComponent], imports: [SharedModule, RouterModule.forChild(routes)] })
+@NgModule({ declarations: [LoginComponent], 
+            imports: [SharedModule, RouterModule.forChild(routes)] })
 export class AuthModule {}

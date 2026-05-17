@@ -1,0 +1,9 @@
+<div class="catalog-page">
+  <h2>Catalog</h2>
+  <div class="catalog-grid">
+    <div class="cards-grid">
+      <app-book-card *ngFor="let b of books" [book]="b" (selected)="selectedBook = b"></app-book-card>
+    </div>
+    <app-book-details [book]="selectedBook" (issueRequested)="issue($event)" (editRequested)="edit($event)"></app-book-details>
+  </div>
+</div>

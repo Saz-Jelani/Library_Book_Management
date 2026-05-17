@@ -1,0 +1,15 @@
+<div class="analytics-wrap">
+  <h2>Analytics</h2>
+
+  <div class="stats-grid">
+    <mat-card>Total Books By Genre: {{ totalBooks }}</mat-card>
+    <mat-card>Total Members: {{ totalMembers }}</mat-card>
+    <mat-card>Active Issues: {{ active }}</mat-card>
+    <mat-card>Overdue Issues: {{ overdue }}</mat-card>
+  </div>
+
+  <div class="charts-grid">
+    <mat-card><canvas baseChart [data]="genreData" [type]="'bar'"></canvas></mat-card>
+    <mat-card><canvas baseChart [data]="monthlyData" [type]="'line'"></canvas></mat-card>
+  </div>
+</div>

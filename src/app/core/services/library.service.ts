@@ -21,7 +21,7 @@ export class LibraryService {
     this.mkBook('B003', 'Clean Code', 'Robert C. Martin', 'Tech', 4),
     this.mkBook('B004', 'Sapiens', 'Yuval Noah Harari', 'History', 6),
     this.mkBook('B005', 'Rich Dad Poor Dad', 'Robert Kiyosaki', 'Self-Help', 5),
-    this.mkBook('B006', "Harry Potter & the Sorcerer's Stone", 'J.K. Rowling', 'Fiction', 8),
+    this.mkBook('B006', "Harry Potter & the Sorcerer'00s Stone", 'J.K. Rowling', 'Fiction', 8),
     this.mkBook('B007', 'The Diary of a Young Girl', 'Anne Frank', 'Biography', 3),
     this.mkBook('B008', 'Introduction to Algorithms', 'Cormen et al.', 'Tech', 4),
     this.mkBook('B009', 'Guns, Germs, and Steel', 'Jared Diamond', 'History', 2),
@@ -40,6 +40,23 @@ export class LibraryService {
     const created = { ...book, id };
     this.booksSubject.next([...this.booksSubject.value, created]);
     return created;
+  }
+
+  incrementCopies(bookIds: string[], amount: number): number {
+    if (!bookIds.length || amount <= 0) return 0;
+    const idSet = new Set(bookIds);
+    let changed = 0;
+    const updated = this.booksSubject.value.map(b => {
+      if (!idSet.has(b.id)) return b;
+      changed++;
+      return {
+        ...b,
+        totalCopies: b.totalCopies + amount,
+        availableCopies: b.availableCopies + amount
+      };
+    });
+    if (changed > 0) this.booksSubject.next(updated);
+    return changed;
   }
 
   updateBook(id: string, updates: Partial<Book>): Book | null {
@@ -128,15 +145,7 @@ export class LibraryService {
     return updated;
   }
 
-  getIssueStats() {
-    const issues = this.syncOverdues();
-    return {
-      totalIssued: issues.length,
-      totalReturned: issues.filter(i => i.status === 'Returned').length,
-      totalOverdue: issues.filter(i => i.status === 'Overdue').length,
-      fineCollected: issues.filter(i => i.status === 'Returned').reduce((a, b) => a + b.fineAmount, 0)
-    };
-  }
+
 
   getMonthlyIssueCount(): { month: string; count: number }[] {
     const now = new Date();

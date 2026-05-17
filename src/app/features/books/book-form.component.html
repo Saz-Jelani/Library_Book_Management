@@ -1,0 +1,65 @@
+<div class="form-page">
+  <h2>{{ id ? 'Edit' : 'Add' }} Book</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid-form">
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Author</mat-label>
+        <input matInput formControlName="author">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>ISBN</mat-label>
+        <input matInput type="number" formControlName="isbn">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Genre</mat-label>
+        <mat-select formControlName="genre">
+          <mat-option *ngFor="let g of genres" [value]="g">{{ g }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Publication Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="publicationDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Total Copies</mat-label>
+        <input matInput type="number" formControlName="totalCopies">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Publisher</mat-label>
+        <input matInput formControlName="publisher">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Language</mat-label>
+        <mat-select formControlName="language">
+          <mat-option *ngFor="let l of langs" [value]="l">{{ l }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Pages</mat-label>
+        <input matInput type="number" formControlName="pages">
+      </mat-form-field>
+
+      <mat-form-field class="desc-field">
+        <mat-label>Description</mat-label>
+        <textarea matInput maxlength="300" formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" [disabled]="form.invalid">Save</button>
+  </form>
+</div>

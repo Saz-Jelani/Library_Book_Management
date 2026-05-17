@@ -1,4 +1,88 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fb; }
-mat-card { padding: 12px; }
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg: #f2ecfa;
+  --surface: #ffffff;
+  --surface-soft: #f7f2fc;
+  --surface-muted: #ece3f8;
+  --primary: #7e57c2;
+  --primary-strong: #5e35b1;
+  --primary-soft: #b39ddb;
+  --text: #2f1f4f;
+  --text-muted: #6f6194;
+  --border: #dbcdf1;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: radial-gradient(circle at top right, #f9f4ff 0%, var(--bg) 45%, #ece2f8 100%);
+  color: var(--text);
+}
+
+mat-card {
+  padding: 12px;
+  border-radius: 16px !important;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 26px rgba(94, 53, 177, 0.08) !important;
+}
+
 .book-card { cursor: pointer; }
+
+.mat-toolbar.mat-primary {
+  background: linear-gradient(90deg, #7e57c2, #9575cd) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(94, 53, 177, 0.24);
+}
+
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: var(--primary-strong);
+  --mdc-protected-button-label-text-color: #ffffff;
+}
+
+.mat-mdc-raised-button.mat-accent {
+  --mdc-protected-button-container-color: #6f42c1;
+  --mdc-protected-button-label-text-color: #ffffff;
+}
+
+.mat-mdc-stroked-button,
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-label-text-color: var(--primary-strong);
+  --mdc-outlined-button-outline-color: var(--primary-soft);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-container-color: #f7f2fc;
+  --mdc-outlined-text-field-outline-color: #ccb9ea;
+  --mdc-outlined-text-field-focus-outline-color: var(--primary);
+  --mdc-outlined-text-field-input-text-color: var(--text);
+}
+
+.mat-mdc-table,
+table {
+  background: var(--surface);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mat-mdc-header-row {
+  background: var(--surface-muted);
+}
+
+.mat-mdc-row:nth-child(even) {
+  background: var(--surface-soft);
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background: linear-gradient(90deg, #7e57c2, #9575cd) !important;
+  color: #fff !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 18px !important;
+  border: 1px solid var(--border);
+  background: #fbf8ff !important;
+}
