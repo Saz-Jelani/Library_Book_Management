@@ -12,7 +12,24 @@ export class AnalyticsDashboardComponent {
   active = 0;
   overdue = 0;
   genreData: ChartConfiguration['data'] = { labels: [], datasets: [{ data: [], label: 'Books by Genre' }] };
-  monthlyData: ChartConfiguration['data'] = { labels: [], datasets: [{ data: [], label: 'Issues', tension: 0.4 }, { data: [], label: 'Returns', borderDash: [5, 5], tension: 0.4 }] };
+  monthlyData: ChartConfiguration<'line'>['data'] = { labels: [], datasets: [{ data: [], label: 'Issues', tension: 0.4 }, { data: [], label: 'Returns', borderDash: [5, 5], tension: 0.4 }] };
+  monthlyOptions: ChartConfiguration<'line'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        title: { display: true, text: 'Month' }
+      },
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Issue Count' },
+        ticks: { precision: 0 }
+      }
+    },
+    plugins: {
+      legend: { display: true }
+    }
+  };
 
   constructor(private lib: LibraryService) {
     this.totalMembers = lib.members.length;
@@ -31,8 +48,21 @@ export class AnalyticsDashboardComponent {
       this.monthlyData = {
         labels: monthly.map(m => m.month),
         datasets: [
-          { data: monthly.map(m => m.count), label: 'Issues', tension: 0.4 },
-          { data: returns, label: 'Returns', borderDash: [5, 5], tension: 0.4 }
+          {
+            data: monthly.map(m => m.count),
+            label: 'Issues',
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          },
+          {
+            data: returns,
+            label: 'Returns',
+            borderDash: [6, 6],
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }
         ]
       };
     });

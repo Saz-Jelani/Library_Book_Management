@@ -10,6 +10,6 @@
 
   <div class="charts-grid">
     <mat-card><canvas baseChart [data]="genreData" [type]="'bar'"></canvas></mat-card>
-    <mat-card><canvas baseChart [data]="monthlyData" [type]="'line'"></canvas></mat-card>
+    <mat-card><canvas baseChart [data]="monthlyData" [options]="monthlyOptions" [type]="'line'"></canvas></mat-card>
   </div>
 </div>
